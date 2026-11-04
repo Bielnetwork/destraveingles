@@ -85,7 +85,7 @@
     const grid = document.getElementById("bonus-grid");
     grid.innerHTML = bonusData.map((bonus, index) => {
       const src = config.images.bonuses[index];
-      const cover = src ? `<img src="${esc(src)}" alt="Capa do bônus ${esc(bonus.title)}" loading="lazy">` : placeholder("bonus", `0${index + 1}`, "Capa do bônus");
+      const cover = src ? `<img src="${esc(src)}" alt="Capa do bônus ${esc(bonus.title)}" width="1120" height="791" loading="lazy" decoding="async">` : placeholder("bonus", `0${index + 1}`, "Capa do bônus");
       return `<article class="bonus-card"><div class="bonus-card__cover">${cover}</div><div class="bonus-card__copy"><span>BÔNUS ${index + 1}</span><h3>${esc(bonus.title)}</h3><p>${esc(bonus.benefit)}</p></div></article>`;
     }).join("");
   }

@@ -19,7 +19,7 @@ window.SALES_PAGE_CONFIG = {
     premiumUpgrade: "https://pay.lowify.com.br/go.php?offer=219afead"
   },
   access: {
-    lifetimeConfirmedForPublication: false
+    lifetimeConfirmedForPublication: true
   },
   upgradeOffer: {
     price: "R$ 14,90",
@@ -51,7 +51,12 @@ window.SALES_PAGE_CONFIG = {
       { title: "Artigos: a, an e the", description: "Entenda a escolha do artigo com um caminho visual.", src: "assets/pagina-artigos-construir.webp" },
       { title: "Prática com artigos", description: "Fixe o conteúdo com exemplos e atividades guiadas.", src: "assets/pagina-artigos-praticar.webp" }
     ],
-    bonuses: ["", "", "", ""]
+    bonuses: [
+      "assets/bonus-conversacao.webp",
+      "assets/bonus-vocabulario.webp",
+      "assets/bonus-plano-30-dias.webp",
+      "assets/bonus-mini-historias.webp"
+    ]
   },
   testimonials: {
     enabled: true,

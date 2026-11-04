@@ -4,7 +4,10 @@
  * Strings vazias mantêm os respectivos dados ocultos ou sinalizados no modo de desenvolvimento.
  */
 window.SALES_PAGE_CONFIG = {
-  developmentMode: /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname) || window.location.hostname.endsWith(".lovableproject.com"),
+  developmentMode:
+    /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname) ||
+    window.location.hostname.endsWith(".lovableproject.com") ||
+    window.location.hostname.startsWith("preview--"),
   productName: "Destrave suas Frases em Inglês",
   prices: {
     basic: "R$ 9,90",

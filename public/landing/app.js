@@ -44,7 +44,7 @@
     const visual = document.getElementById("hero-visual");
     if (visual.querySelector(".hero__mockup-image")) return;
     const responsiveSource = config.images.heroMockup.endsWith("mockup-produto-ingles.webp")
-      ? ` srcset="assets/mockup-produto-ingles-480.webp 480w, ${esc(config.images.heroMockup)} 900w" sizes="(max-width: 680px) 220px, 560px"`
+      ? ` srcset="assets/mockup-produto-ingles-480.webp 480w, ${esc(config.images.heroMockup)} 900w" sizes="(max-width: 680px) 244px, 572px"`
       : "";
     visual.innerHTML = `<img class="hero__mockup-image" src="${esc(config.images.heroMockup)}"${responsiveSource} alt="Mockup do produto ${esc(config.productName)}" width="900" height="985" fetchpriority="high" decoding="async">`;
     visual.removeAttribute("aria-label");
@@ -58,7 +58,7 @@
     const gallery = document.getElementById("product-gallery");
     const items = config.images.productPages.map((item, index) => {
       const media = item.src
-        ? `<button class="product-media product-media--clickable" type="button" data-lightbox-src="${esc(item.src)}" data-lightbox-alt="${esc(item.title)}"><img src="${esc(item.src)}" alt="${esc(item.title)}" loading="lazy"></button>`
+        ? `<button class="product-media product-media--clickable" type="button" data-lightbox-src="${esc(item.src)}" data-lightbox-alt="${esc(item.title)}"><img src="${esc(item.src)}" alt="${esc(item.title)}" width="1024" height="720" loading="lazy" decoding="async"></button>`
         : `<div class="product-media">${placeholder("page", String(index + 1).padStart(2, "0"), "Página real do produto")}</div>`;
       return `<article class="product-card">${media}<div class="product-card__copy"><span>EXEMPLO ${String(index + 1).padStart(2, "0")}</span><h3>${esc(item.title)}</h3><p>${esc(item.description)}</p></div></article>`;
     }).join("");
@@ -95,9 +95,10 @@
       const price = config.prices[plan.key];
       const checkout = config.checkout[plan.key];
       const priceMarkup = price ? `<p class="offer-card__price"><small>Por</small><strong>${esc(price)}</strong></p>` : `<p class="offer-card__pending">Preço a definir</p>`;
+      const buttonClass = plan.featured ? "button--yellow button--premium" : "button--blue";
       const button = checkout
-        ? `<a class="button ${plan.featured ? "button--yellow" : "button--blue"}" href="${esc(checkout)}" rel="noopener">${esc(plan.cta)} <span aria-hidden="true">→</span></a>`
-        : `<button class="button ${plan.featured ? "button--yellow" : "button--blue"}" type="button" disabled aria-describedby="${plan.key}-checkout-note">${esc(plan.cta)}</button>`;
+        ? `<a class="button ${buttonClass}" href="${esc(checkout)}" rel="noopener">${esc(plan.cta)} <span aria-hidden="true">→</span></a>`
+        : `<button class="button ${buttonClass}" type="button" disabled aria-describedby="${plan.key}-checkout-note">${esc(plan.cta)}</button>`;
       const badge = plan.featured
         ? (config.developmentMode ? config.premiumBadge.developmentText : config.premiumBadge.publicText)
         : plan.badge;
@@ -107,7 +108,9 @@
       const list = `<ul>${plan.items.map((item) => `<li><span aria-hidden="true">✓</span>${esc(item)}</li>`).join("")}</ul>`;
       const purchase = `${button}${!checkout ? `<small class="offer-card__checkout-note" id="${plan.key}-checkout-note">Checkout ainda não configurado.</small>` : ""}`;
       const body = plan.featured ? `${list}${priceMarkup}${purchase}` : `${priceMarkup}${list}${purchase}`;
-      return `<article class="offer-card ${plan.featured ? "offer-card--featured" : "offer-card--basic"}">${offerImage}<p class="offer-card__badge">${esc(badge)}</p><h3>${esc(plan.name)}</h3><p class="offer-card__intro">${plan.featured ? "Produto principal + quatro bônus para ampliar sua prática." : "O material principal para aprender a construir e praticar frases."}</p>${body}</article>`;
+      const badgeMarkup = `<p class="offer-card__badge${plan.featured ? " offer-card__badge--featured" : ""}">${esc(badge)}</p>`;
+      const offerHeader = plan.featured ? `${badgeMarkup}${offerImage}` : `${offerImage}${badgeMarkup}`;
+      return `<article class="offer-card ${plan.featured ? "offer-card--featured" : "offer-card--basic"}">${offerHeader}<h3>${esc(plan.name)}</h3><p class="offer-card__intro">${plan.featured ? "Produto principal + quatro bônus para ampliar sua prática." : "O material principal para aprender a construir e praticar frases."}</p>${body}</article>`;
     }).join("");
   }
 

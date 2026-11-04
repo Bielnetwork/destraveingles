@@ -3,6 +3,7 @@
 
   const config = window.SALES_PAGE_CONFIG;
   if (!config) throw new Error("SALES_PAGE_CONFIG não foi carregado.");
+  const showLifetimeAccess = Boolean(config.access?.lifetimeConfirmedForPublication || config.developmentMode);
 
   const bonusData = [
     { title: "40 Diálogos para Situações Reais", description: "Aprenda a desenvolver respostas e compreender conversas comuns em inglês, com diálogos traduzidos e atividades para praticar.", benefit: "Pratique conversas do cotidiano." },
@@ -14,12 +15,12 @@
   const plans = [
     {
       key: "basic", name: "Plano Básico", badge: "PRODUTO PRINCIPAL", featured: false,
-      items: ["Produto principal", "90 lições visuais", "180 páginas ilustradas", "Exercícios e gabarito", "PDF colorido imprimível"],
+      items: ["Produto principal", "90 lições visuais", "180 páginas ilustradas", "Exercícios e gabarito", "PDF colorido imprimível", ...(showLifetimeAccess ? ["Acesso vitalício"] : [])],
       cta: "QUERO O PLANO BÁSICO"
     },
     {
       key: "premium", name: "Plano Premium", badge: "", featured: true,
-      items: ["Tudo do Plano Básico", "Bônus 1: 40 Diálogos", "Bônus 2: 200 Palavras + 50 Combinações", "Bônus 3: Plano de 30 Dias", "Bônus 4: 30 Mini-Histórias"],
+      items: ["Tudo do Plano Básico", "Bônus 1: 40 Diálogos", "Bônus 2: 200 Palavras + 50 Combinações", "Bônus 3: Plano de 30 Dias", "Bônus 4: 30 Mini-Histórias", ...(showLifetimeAccess ? ["Acesso vitalício"] : [])],
       cta: "QUERO O PLANO PREMIUM"
     }
   ];
@@ -33,7 +34,7 @@
     ["O produto contém exercícios?", "Sim. O material inclui exercícios e gabarito para praticar e revisar o conteúdo."],
     ["Qual é a diferença entre o Básico e o Premium?", "O Básico inclui o produto principal. O Premium inclui todo o Plano Básico e mais quatro materiais bônus: diálogos, vocabulário e combinações, plano de 30 dias e mini-histórias."],
     ["Como receberei o material após a compra?", config.delivery.method || "A forma exata de entrega ainda será configurada e informada antes da publicação."],
-    ["Por quanto tempo terei acesso?", config.delivery.accessPeriod || "O prazo de acesso ainda será definido e informado antes da publicação."],
+    ["Por quanto tempo terei acesso?", showLifetimeAccess ? "Você terá acesso vitalício aos materiais digitais comprados." : (config.delivery.accessPeriod || "O prazo de acesso ainda será definido e informado antes da publicação.")],
     ["Como funciona a garantia?", config.guarantee.policyText || "Você tem até 7 dias após a compra para solicitar o reembolso, conforme as condições da garantia."]
   ];
 
@@ -97,7 +98,7 @@
       const priceMarkup = price ? `<p class="offer-card__price"><small>Por</small><strong>${esc(price)}</strong></p>` : `<p class="offer-card__pending">Preço a definir</p>`;
       const buttonClass = plan.featured ? "button--yellow button--premium" : "button--blue";
       const button = checkout
-        ? `<a class="button ${buttonClass}" href="${esc(checkout)}" rel="noopener">${esc(plan.cta)} <span aria-hidden="true">→</span></a>`
+        ? `<a class="button ${buttonClass}" href="${esc(checkout)}" rel="noopener"${plan.key === "basic" ? " data-basic-checkout" : ""}>${esc(plan.cta)} <span aria-hidden="true">→</span></a>`
         : `<button class="button ${buttonClass}" type="button" disabled aria-describedby="${plan.key}-checkout-note">${esc(plan.cta)}</button>`;
       const badge = plan.featured
         ? (config.developmentMode ? config.premiumBadge.developmentText : config.premiumBadge.publicText)
@@ -112,6 +113,61 @@
       const offerHeader = plan.featured ? `${badgeMarkup}${offerImage}` : `${offerImage}${badgeMarkup}`;
       return `<article class="offer-card ${plan.featured ? "offer-card--featured" : "offer-card--basic"}">${offerHeader}<h3>${esc(plan.name)}</h3><p class="offer-card__intro">${plan.featured ? "Produto principal + quatro bônus para ampliar sua prática." : "O material principal para aprender a construir e praticar frases."}</p>${body}</article>`;
     }).join("");
+    document.querySelector(".offers-disclaimer").hidden = Boolean(config.checkout.basic && config.checkout.premium);
+  }
+
+  function initLifetimeAccess() {
+    document.querySelectorAll("[data-lifetime-benefit]").forEach((item) => { item.hidden = !showLifetimeAccess; });
+  }
+
+  function initUpgradeModal() {
+    const dialog = document.getElementById("upgrade-modal");
+    const basicTrigger = document.querySelector("[data-basic-checkout]");
+    if (!dialog || !basicTrigger || !config.checkout.basic || !config.checkout.premiumUpgrade) return;
+
+    const closeButton = dialog.querySelector(".upgrade-modal__close");
+    const premiumLink = document.getElementById("upgrade-premium-link");
+    const basicLink = document.getElementById("upgrade-basic-link");
+    const sessionKey = config.upgradeOffer?.sessionKey || "destrave-upgrade-basic-dismissed";
+    let returnFocus = null;
+
+    premiumLink.href = config.checkout.premiumUpgrade;
+    basicLink.href = config.checkout.basic;
+
+    const wasDismissed = () => {
+      try { return sessionStorage.getItem(sessionKey) === "1"; } catch { return false; }
+    };
+    const rememberChoice = () => {
+      try { sessionStorage.setItem(sessionKey, "1"); } catch { /* armazenamento indisponível */ }
+    };
+    const closeModal = () => {
+      rememberChoice();
+      if (dialog.open) dialog.close();
+    };
+
+    basicTrigger.addEventListener("click", (event) => {
+      if (wasDismissed()) return;
+      event.preventDefault();
+      returnFocus = basicTrigger;
+      dialog.showModal();
+      document.body.classList.add("modal-open");
+      closeButton.focus();
+    });
+
+    closeButton.addEventListener("click", closeModal);
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeModal();
+    });
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) closeModal();
+    });
+    dialog.addEventListener("close", () => {
+      document.body.classList.remove("modal-open");
+      if (returnFocus && document.contains(returnFocus)) returnFocus.focus();
+    });
+    premiumLink.addEventListener("click", rememberChoice);
+    basicLink.addEventListener("click", rememberChoice);
   }
 
   function renderGuarantee() {
@@ -183,6 +239,7 @@
     document.documentElement.classList.add("js");
     document.body.classList.toggle("is-development", Boolean(config.developmentMode));
     renderHero();
+    initLifetimeAccess();
     renderProductGallery();
     renderTestimonials();
     renderBonuses();
@@ -193,6 +250,7 @@
     initCarousels();
     initLightbox();
     initFaq();
+    initUpgradeModal();
   }
 
   init();

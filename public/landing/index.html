@@ -37,10 +37,11 @@
       <div class="hero__action">
         <p class="hero__sub">Com 180 páginas ilustradas de explicações e exercícios, aprenda passo a passo a construir suas próprias frases em inglês e pratique para usá-las em situações do dia a dia — sem depender de frases decoradas.</p>
         <a class="button button--yellow" href="#ofertas">QUERO APRENDER A MONTAR FRASES <span aria-hidden="true">→</span></a>
-        <ul class="trust-list" aria-label="Características confirmadas">
-          <li><span aria-hidden="true">✓</span> PDF digital colorido</li>
-          <li><span aria-hidden="true">✓</span> Formato A4 horizontal</li>
-          <li><span aria-hidden="true">✓</span> Pronto para impressão</li>
+        <ul class="trust-list" aria-label="Benefícios do material">
+          <li data-lifetime-benefit hidden><span aria-hidden="true">✓</span> Acesso vitalício</li>
+          <li><span aria-hidden="true">✓</span> Exercícios com gabarito</li>
+          <li><span aria-hidden="true">✓</span> PDF para imprimir em A4</li>
+          <li><span aria-hidden="true">✓</span> Do básico ao avançado</li>
         </ul>
       </div>
     </div>
@@ -222,6 +223,31 @@
     <button type="button" class="lightbox__close" aria-label="Fechar imagem">×</button>
     <img src="" alt="">
     <p></p>
+  </dialog>
+
+  <dialog class="upgrade-modal" id="upgrade-modal" aria-labelledby="upgrade-title" aria-describedby="upgrade-description">
+    <div class="upgrade-modal__shell">
+      <button type="button" class="upgrade-modal__close" aria-label="Fechar oferta de upgrade">×</button>
+      <div class="upgrade-modal__visual">
+        <img src="assets/oferta-plano-premium.webp" alt="Plano Premium com o produto principal e quatro bônus" width="900" height="1124" loading="lazy" decoding="async">
+      </div>
+      <div class="upgrade-modal__content">
+        <p class="upgrade-modal__eyebrow">UMA OPORTUNIDADE ANTES DE FINALIZAR</p>
+        <h2 id="upgrade-title">Espere! Que tal levar o pacote Premium por R$ 14,90?</h2>
+        <p id="upgrade-description">Além do material principal, você recebe os 4 bônus para praticar conversação, ampliar o vocabulário e estudar com mais organização.</p>
+        <ul>
+          <li>✓ Tudo do Plano Básico</li>
+          <li>✓ 40 diálogos para situações reais</li>
+          <li>✓ 200 palavras + 50 combinações</li>
+          <li>✓ Plano de estudos de 30 dias</li>
+          <li>✓ 30 mini-histórias em inglês</li>
+          <li data-lifetime-benefit hidden>✓ Acesso vitalício</li>
+        </ul>
+        <div class="upgrade-modal__price"><small>Oferta especial do Premium</small><strong>R$ 14,90</strong></div>
+        <a class="button button--yellow upgrade-modal__primary" id="upgrade-premium-link" href="#" rel="noopener">SIM, QUERO O PREMIUM POR R$ 14,90</a>
+        <a class="upgrade-modal__secondary" id="upgrade-basic-link" href="#" rel="noopener">Não, quero continuar com o Básico por R$ 9,90</a>
+      </div>
+    </div>
   </dialog>
 
     <script type="module" src="config.js"></script>

@@ -14,8 +14,16 @@ window.SALES_PAGE_CONFIG = {
     premium: "R$ 19,90"
   },
   checkout: {
-    basic: "",
-    premium: ""
+    basic: "https://pay.lowify.com.br/checkout?product_id=DB4zvP",
+    premium: "https://pay.lowify.com.br/checkout?product_id=nq3zS1",
+    premiumUpgrade: "https://pay.lowify.com.br/go.php?offer=219afead"
+  },
+  access: {
+    lifetimeConfirmedForPublication: false
+  },
+  upgradeOffer: {
+    price: "R$ 14,90",
+    sessionKey: "destrave-upgrade-basic-dismissed"
   },
   premiumBadge: {
     developmentText: "⭐ MAIS VENDIDO",

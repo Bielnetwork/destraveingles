@@ -15,7 +15,7 @@
   <meta name="twitter:description" content="Um método visual para aprender a organizar palavras e construir frases em inglês.">
   <title>Destrave suas Frases em Inglês | Método Visual</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="assets/mockup-produto-ingles-480.webp" as="image" type="image/webp" imagesrcset="assets/mockup-produto-ingles-480.webp 480w, assets/mockup-produto-ingles.webp 900w" imagesizes="(max-width: 680px) 220px, 560px" fetchpriority="high">
+  <link rel="preload" href="assets/mockup-produto-ingles-480.webp" as="image" type="image/webp" imagesrcset="assets/mockup-produto-ingles-480.webp 480w, assets/mockup-produto-ingles.webp 900w" imagesizes="(max-width: 680px) 220px, 520px" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,19 +30,8 @@
         <h1>Você precisa falar inglês, mas <mark>trava na hora</mark> de montar uma frase?</h1>
       </div>
 
-      <div class="hero__visual" id="hero-visual" aria-label="Espaço reservado para o mockup do produto">
-        <div class="mockup-card mockup-card--back" aria-hidden="true"></div>
-        <div class="mockup-card mockup-card--front">
-          <div class="mockup-card__top"><span>90</span><small>LIÇÕES<br>VISUAIS</small></div>
-          <div class="mockup-card__body">
-            <span class="mockup-icon" aria-hidden="true">A → B</span>
-            <strong>MOCKUP DO<br>PRODUTO</strong>
-            <small>imagem a inserir</small>
-          </div>
-        </div>
-        <div class="lesson-chip lesson-chip--blue">Sujeito</div>
-        <div class="lesson-chip lesson-chip--red">+ verbo</div>
-        <div class="lesson-chip lesson-chip--green">+ complemento</div>
+      <div class="hero__visual" id="hero-visual">
+        <img class="hero__mockup-image" src="assets/mockup-produto-ingles.webp" srcset="assets/mockup-produto-ingles-480.webp 480w, assets/mockup-produto-ingles.webp 900w" sizes="(max-width: 680px) 220px, 520px" alt="Mockup do produto Destrave suas Frases em Inglês" width="900" height="985" fetchpriority="high" decoding="async">
       </div>
 
       <div class="hero__action">
@@ -125,7 +114,7 @@
     <section class="section product-view" aria-labelledby="inside-title">
       <div class="container">
         <div class="section-heading section-heading--light">
-          <p class="eyebrow eyebrow--light"><span></span> Conheça o método visual</p>
+          <p class="eyebrow eyebrow--light"><span></span> Veja por dentro</p>
           <h2 id="inside-title">Antes de comprar, veja o material por dentro.</h2>
           <p>Conheça as explicações e os exercícios que você vai receber.</p>
         </div>
@@ -136,8 +125,8 @@
     <section class="section testimonials" id="depoimentos" aria-labelledby="testimonials-title">
       <div class="container">
         <div class="section-heading">
-          <p class="eyebrow"><span></span> Experiências reais</p>
-          <h2 id="testimonials-title">Veja o que estão dizendo sobre o material.</h2>
+          <p class="eyebrow"><span></span> Depoimentos reais</p>
+          <h2 id="testimonials-title">O que compradores dizem sobre o material.</h2>
           <p class="dev-note">Área reservada para depoimentos reais. Nenhuma mensagem fictícia é exibida.</p>
         </div>
         <div class="testimonial-carousel" id="testimonial-gallery"></div>
@@ -152,7 +141,7 @@
       <div class="container">
         <div class="section-heading">
           <span class="premium-pill">EXCLUSIVO DO PREMIUM</span>
-          <h2 id="bonuses-title">Com o Plano Premium, você recebe ainda mais materiais para colocar seu inglês em prática.</h2>
+          <h2 id="bonuses-title">Produto principal + 4 bônus para praticar mais.</h2>
         </div>
         <div class="bonus-grid" id="bonus-grid"></div>
       </div>
@@ -162,10 +151,10 @@
       <div class="container">
         <div class="section-heading section-heading--light">
           <p class="eyebrow eyebrow--light"><span></span> Escolha seu plano</p>
-          <h2 id="offers-title">Escolha a melhor forma de começar a construir suas frases em inglês.</h2>
+          <h2 id="offers-title">Escolha seu plano.</h2>
         </div>
         <div class="offer-grid" id="offer-grid"></div>
-        <p class="offers-disclaimer">Preços e links de compra somente serão exibidos quando os dados reais forem configurados.</p>
+        <p class="offers-disclaimer">Os links de compra serão ativados após a configuração do checkout.</p>
       </div>
     </section>
 
@@ -213,7 +202,7 @@
       <div class="container container--narrow">
         <div class="section-heading">
           <p class="eyebrow"><span></span> Dúvidas frequentes</p>
-          <h2 id="faq-title">Antes de começar, confira as respostas.</h2>
+          <h2 id="faq-title">Dúvidas antes da compra?</h2>
         </div>
         <div class="faq-list" id="faq-list"></div>
       </div>
@@ -235,7 +224,7 @@
     <p></p>
   </dialog>
 
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+    <script type="module" src="config.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

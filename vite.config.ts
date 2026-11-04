@@ -1,15 +1,42 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "vite";
+import { cpSync, mkdirSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
+// Serve a landing page diretamente, sem carregar uma aplicação React apenas
+// para envolvê-la em um iframe. Isso preserva o HTML/CSS/JS existente e reduz
+// JavaScript, CSS e trabalho de renderização desnecessários.
 export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
+  root: "public/landing",
+  publicDir: false,
+  plugins: [
+    {
+      name: "inline-landing-css",
+      transformIndexHtml: {
+        order: "pre",
+        handler(html) {
+          const css = readFileSync(resolve("public/landing/styles.css"), "utf8");
+          return html.replace(
+            '<link rel="stylesheet" href="styles.css">',
+            `<style>${css}</style>`,
+          );
+        },
+      },
+    },
+    {
+      name: "copy-landing-images",
+      closeBundle() {
+        const target = resolve("dist/assets");
+        mkdirSync(target, { recursive: true });
+        cpSync(resolve("public/landing/assets"), target, { recursive: true });
+      },
+    },
+  ],
+  build: {
+    outDir: "../../dist",
+    emptyOutDir: true,
+  },
+  server: {
+    host: "::",
+    port: 8080,
   },
 });

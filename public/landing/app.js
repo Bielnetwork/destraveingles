@@ -42,6 +42,7 @@
   function renderHero() {
     if (!config.images.heroMockup) return;
     const visual = document.getElementById("hero-visual");
+    if (visual.querySelector(".hero__mockup-image")) return;
     const responsiveSource = config.images.heroMockup.endsWith("mockup-produto-ingles.webp")
       ? ` srcset="assets/mockup-produto-ingles-480.webp 480w, ${esc(config.images.heroMockup)} 900w" sizes="(max-width: 680px) 220px, 560px"`
       : "";
@@ -84,7 +85,7 @@
     grid.innerHTML = bonusData.map((bonus, index) => {
       const src = config.images.bonuses[index];
       const cover = src ? `<img src="${esc(src)}" alt="Capa do bônus ${esc(bonus.title)}" loading="lazy">` : placeholder("bonus", `0${index + 1}`, "Capa do bônus");
-      return `<article class="bonus-card"><div class="bonus-card__cover">${cover}</div><div class="bonus-card__copy"><span>BÔNUS ${index + 1}</span><h3>${esc(bonus.title)}</h3><p>${esc(bonus.description)}</p><strong><i aria-hidden="true">✓</i> ${esc(bonus.benefit)}</strong></div></article>`;
+      return `<article class="bonus-card"><div class="bonus-card__cover">${cover}</div><div class="bonus-card__copy"><span>BÔNUS ${index + 1}</span><h3>${esc(bonus.title)}</h3><p>${esc(bonus.benefit)}</p></div></article>`;
     }).join("");
   }
 

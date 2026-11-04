@@ -4,11 +4,11 @@
  * Strings vazias mantêm os respectivos dados ocultos ou sinalizados no modo de desenvolvimento.
  */
 window.SALES_PAGE_CONFIG = {
-  developmentMode: true,
+  developmentMode: false,
   productName: "Destrave suas Frases em Inglês",
   prices: {
-    basic: "",
-    premium: ""
+    basic: "R$ 9,90",
+    premium: "R$ 19,90"
   },
   checkout: {
     basic: "",
@@ -16,7 +16,7 @@ window.SALES_PAGE_CONFIG = {
   },
   premiumBadge: {
     developmentText: "⭐ PACOTE MAIS VENDIDO",
-    publicText: "PACOTE MAIS COMPLETO"
+    publicText: "PACOTE COMPLETO"
   },
   guarantee: {
     period: "7 dias",

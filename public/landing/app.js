@@ -40,6 +40,17 @@
 
   const esc = (value) => String(value || "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
 
+  function renderBlackFridayBar() {
+    const bar = document.getElementById("black-friday-bar");
+    const settings = config.blackFridayBar;
+    if (!bar || !settings?.enabled) {
+      if (bar) bar.hidden = true;
+      return;
+    }
+    const text = document.getElementById("black-friday-bar-text");
+    if (text && settings.text) text.textContent = settings.text;
+  }
+
   function renderHero() {
     if (!config.images.heroMockup) return;
     const visual = document.getElementById("hero-visual");
@@ -238,6 +249,7 @@
   function init() {
     document.documentElement.classList.add("js");
     document.body.classList.toggle("is-development", Boolean(config.developmentMode));
+    renderBlackFridayBar();
     renderHero();
     initLifetimeAccess();
     renderProductGallery();

@@ -9,6 +9,10 @@ window.SALES_PAGE_CONFIG = {
     window.location.hostname.endsWith(".lovableproject.com") ||
     window.location.hostname.startsWith("preview--"),
   productName: "Destrave suas Frases em Inglês",
+  blackFridayBar: {
+    enabled: true,
+    text: "BLACK FRIDAY • GARANTA SEU ACESSO"
+  },
   prices: {
     basic: "R$ 9,90",
     premium: "R$ 19,90"

@@ -44,8 +44,8 @@ window.SALES_PAGE_CONFIG = {
   images: {
     heroMockup: "assets/mockup-produto-ingles.webp",
     offers: {
-      basic: "assets/oferta-plano-basico.webp",
-      premium: "assets/oferta-plano-premium.webp"
+      basic: "",
+      premium: "assets/oferta-plano-premium-kit.webp"
     },
     productPages: [
       { title: "Sujeito da frase", description: "Aprenda a identificar e organizar o sujeito passo a passo.", src: "assets/pagina-sujeito-construir.webp" },

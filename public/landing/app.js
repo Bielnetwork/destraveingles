@@ -15,7 +15,8 @@
   const plans = [
     {
       key: "basic", name: "Plano Básico", badge: "PRODUTO PRINCIPAL", featured: false,
-      items: ["Produto principal", "90 lições visuais", "180 páginas ilustradas", "Exercícios e gabarito", "PDF colorido imprimível", ...(showLifetimeAccess ? ["Acesso vitalício"] : [])],
+      items: ["Produto principal: 90 lições e 180 páginas", "Exercícios com gabarito", "PDF colorido para imprimir", ...(showLifetimeAccess ? ["Acesso vitalício"] : [])],
+      excludedItems: ["40 Diálogos para Situações Reais", "200 Palavras + 50 Combinações", "Plano de Estudos de 30 Dias", "30 Mini-Histórias em Inglês"],
       cta: "QUERO O PLANO BÁSICO"
     },
     {
@@ -115,11 +116,14 @@
         ? (config.developmentMode ? config.premiumBadge.developmentText : config.premiumBadge.publicText)
         : plan.badge;
       const offerImage = config.images.offers && config.images.offers[plan.key]
-        ? `<img class="offer-card__visual" src="${esc(config.images.offers[plan.key])}" alt="Apresentação visual do ${esc(plan.name)}" width="900" height="1124" loading="lazy" decoding="async">`
+        ? `<img class="offer-card__visual" src="${esc(config.images.offers[plan.key])}" alt="Apresentação visual do ${esc(plan.name)}" width="1122" height="1402" loading="lazy" decoding="async">`
         : "";
       const list = `<ul>${plan.items.map((item) => `<li><span aria-hidden="true">✓</span>${esc(item)}</li>`).join("")}</ul>`;
+      const exclusions = plan.excludedItems?.length
+        ? `<div class="offer-card__excluded"><small>Não inclui os bônus:</small><ul>${plan.excludedItems.map((item) => `<li><span aria-hidden="true">×</span>${esc(item)}</li>`).join("")}</ul></div>`
+        : "";
       const purchase = `${button}${!checkout ? `<small class="offer-card__checkout-note" id="${plan.key}-checkout-note">Checkout ainda não configurado.</small>` : ""}`;
-      const body = plan.featured ? `${list}${priceMarkup}${purchase}` : `${priceMarkup}${list}${purchase}`;
+      const body = plan.featured ? `${list}${priceMarkup}${purchase}` : `${priceMarkup}${list}${exclusions}${purchase}`;
       const badgeMarkup = `<p class="offer-card__badge${plan.featured ? " offer-card__badge--featured" : ""}">${esc(badge)}</p>`;
       const offerHeader = plan.featured ? `${badgeMarkup}${offerImage}` : `${offerImage}${badgeMarkup}`;
       return `<article class="offer-card ${plan.featured ? "offer-card--featured" : "offer-card--basic"}">${offerHeader}<h3>${esc(plan.name)}</h3><p class="offer-card__intro">${plan.featured ? "Produto principal + quatro bônus para ampliar sua prática." : "O material principal para aprender a construir e praticar frases."}</p>${body}</article>`;

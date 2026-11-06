@@ -86,7 +86,7 @@
     }
     const gallery = document.getElementById("testimonial-gallery");
     if (config.testimonials.images.length) {
-      gallery.innerHTML = config.testimonials.images.map((src, index) => `<button class="testimonial-card testimonial-card--real" type="button" data-lightbox-src="${esc(src)}" data-lightbox-alt="Depoimento real ${index + 1}"><img src="${esc(src)}" alt="Depoimento real ${index + 1}" loading="lazy"></button>`).join("");
+      gallery.innerHTML = config.testimonials.images.map((src, index) => `<button class="testimonial-card testimonial-card--real" type="button" data-lightbox-src="${esc(src)}" data-lightbox-alt="Depoimento real ${index + 1}"><img src="${esc(src)}" alt="Depoimento real ${index + 1}" loading="lazy" decoding="async"></button>`).join("");
     } else {
       gallery.innerHTML = [1, 2, 3].map((number) => `<div class="testimonial-card">${placeholder("testimonial", number, "Print de depoimento real")}</div>`).join("");
     }

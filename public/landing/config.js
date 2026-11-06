@@ -11,7 +11,7 @@ window.SALES_PAGE_CONFIG = {
   productName: "Destrave suas Frases em Inglês",
   blackFridayBar: {
     enabled: true,
-    text: "BLACK FRIDAY • GARANTA SEU ACESSO"
+    text: "OFERTA DE BLACK FRIDAY • GARANTA SEU ACESSO"
   },
   prices: {
     basic: "R$ 9,90",
@@ -64,7 +64,11 @@ window.SALES_PAGE_CONFIG = {
   },
   testimonials: {
     enabled: true,
-    images: []
+    images: [
+      "assets/depoimento-material-01.webp",
+      "assets/depoimento-material-02.webp",
+      "assets/depoimento-material-03.webp"
+    ]
   },
   legal: {
     copyrightOwner: "",

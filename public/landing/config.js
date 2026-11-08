@@ -14,10 +14,6 @@ window.SALES_PAGE_CONFIG = {
       id: "1135912255500773",
       enabled: true,
       enableInDevelopment: false
-    },
-    consent: {
-      required: true,
-      storageKey: "destrave-marketing-consent"
     }
   },
   blackFridayBar: {

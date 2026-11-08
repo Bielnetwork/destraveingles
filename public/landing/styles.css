@@ -36,6 +36,13 @@ button:disabled { cursor: not-allowed; }
 
 .skip-link { position: fixed; left: 12px; top: -80px; z-index: 1000; padding: 12px 18px; border-radius: 10px; background: #fff; color: var(--navy); font-weight: 800; transition: top .2s ease; }
 .skip-link:focus { top: 12px; }
+.marketing-consent { position: fixed; right: 18px; bottom: 18px; z-index: 950; width: min(440px, calc(100% - 36px)); padding: 18px; border: 1px solid #cbdcf4; border-radius: 18px; color: var(--ink); background: rgba(255,255,255,.98); box-shadow: 0 20px 56px rgba(3, 27, 78, .28); }
+.marketing-consent p { margin: 0 0 14px; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+.marketing-consent strong { color: var(--navy); }
+.marketing-consent__actions { display: flex; gap: 10px; justify-content: flex-end; }
+.marketing-consent button { min-height: 42px; padding: 9px 15px; border: 1px solid #b9cae2; border-radius: 11px; color: var(--navy); background: #fff; font-size: .76rem; font-weight: 900; }
+.marketing-consent button[data-consent-accept] { border-color: var(--blue-700); color: #fff; background: var(--blue-700); }
+.marketing-consent button:hover { filter: brightness(.97); }
 .black-friday-bar { position: relative; z-index: 20; color: #fff; background: linear-gradient(90deg, #8e0712, #d81625 48%, #980814); box-shadow: 0 5px 18px rgba(78, 0, 8, .28); }
 .black-friday-bar::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .18; background: repeating-linear-gradient(120deg, transparent 0 28px, rgba(255,255,255,.18) 29px 30px); }
 .black-friday-bar__inner { position: relative; display: flex; min-height: 48px; align-items: center; justify-content: center; gap: 18px; width: min(calc(100% - 32px), var(--container)); margin-inline: auto; color: #fff; text-decoration: none; }
@@ -381,6 +388,10 @@ em { color: var(--blue-700); }
 @media (max-width: 680px) {
   body { font-size: 17px; }
   .container { width: min(calc(100% - 24px), var(--container)); }
+  .marketing-consent { right: 10px; bottom: 10px; width: calc(100% - 20px); padding: 15px; border-radius: 15px; }
+  .marketing-consent p { margin-bottom: 11px; font-size: .78rem; }
+  .marketing-consent__actions { gap: 8px; }
+  .marketing-consent button { flex: 1; padding-inline: 10px; }
   .black-friday-bar__inner { min-height: 44px; gap: 9px; width: min(calc(100% - 18px), var(--container)); }
   .black-friday-bar__inner strong { font-size: .7rem; letter-spacing: .045em; }
   .black-friday-bar__spark { width: 7px; height: 7px; box-shadow: 0 0 0 4px rgba(255,216,61,.17), 0 0 13px rgba(255,216,61,.62); }
@@ -488,3 +499,4 @@ em { color: var(--blue-700); }
   .offer-card--featured .button--premium { animation: none !important; transform: none !important; }
   .product-marquee__group[aria-hidden="true"] { display: none; }
 }
+

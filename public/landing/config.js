@@ -9,6 +9,17 @@ window.SALES_PAGE_CONFIG = {
     window.location.hostname.endsWith(".lovableproject.com") ||
     window.location.hostname.startsWith("preview--"),
   productName: "Destrave suas Frases em Inglês",
+  analytics: {
+    metaPixel: {
+      id: "1135912255500773",
+      enabled: true,
+      enableInDevelopment: false
+    },
+    consent: {
+      required: true,
+      storageKey: "destrave-marketing-consent"
+    }
+  },
   blackFridayBar: {
     enabled: true,
     text: "OFERTA DE BLACK FRIDAY • GARANTA SEU ACESSO"
@@ -79,3 +90,4 @@ window.SALES_PAGE_CONFIG = {
     companyInfo: ""
   }
 };
+

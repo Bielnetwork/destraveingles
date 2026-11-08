@@ -40,6 +40,18 @@
   ];
 
   const esc = (value) => String(value || "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
+  const attributionParams = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+
+  function withAttributionParams(url) {
+    if (!url) return "";
+    const destination = new URL(url, window.location.href);
+    const current = new URLSearchParams(window.location.search);
+    attributionParams.forEach((name) => {
+      const value = current.get(name);
+      if (value && !destination.searchParams.has(name)) destination.searchParams.set(name, value);
+    });
+    return destination.href;
+  }
 
   function renderBlackFridayBar() {
     const bar = document.getElementById("black-friday-bar");
@@ -110,7 +122,7 @@
       const priceMarkup = price ? `<p class="offer-card__price"><small>Por</small><strong>${esc(price)}</strong></p>` : `<p class="offer-card__pending">Preço a definir</p>`;
       const buttonClass = plan.featured ? "button--yellow button--premium" : "button--blue";
       const button = checkout
-        ? `<a class="button ${buttonClass}" href="${esc(checkout)}" rel="noopener"${plan.key === "basic" ? " data-basic-checkout" : ""}>${esc(plan.cta)} <span aria-hidden="true">→</span></a>`
+        ? `<a class="button ${buttonClass}" href="${esc(withAttributionParams(checkout))}" rel="noopener" data-checkout-track="${plan.key === "basic" ? "basic" : "premium_normal"}"${plan.key === "basic" ? " data-basic-checkout" : ""}>${esc(plan.cta)} <span aria-hidden="true">→</span></a>`
         : `<button class="button ${buttonClass}" type="button" disabled aria-describedby="${plan.key}-checkout-note">${esc(plan.cta)}</button>`;
       const badge = plan.featured
         ? (config.developmentMode ? config.premiumBadge.developmentText : config.premiumBadge.publicText)
@@ -146,8 +158,10 @@
     const sessionKey = config.upgradeOffer?.sessionKey || "destrave-upgrade-basic-dismissed";
     let returnFocus = null;
 
-    premiumLink.href = config.checkout.premiumUpgrade;
-    basicLink.href = config.checkout.basic;
+    premiumLink.href = withAttributionParams(config.checkout.premiumUpgrade);
+    premiumLink.dataset.checkoutTrack = "premium_upgrade";
+    basicLink.href = withAttributionParams(config.checkout.basic);
+    basicLink.dataset.checkoutTrack = "basic";
 
     const wasDismissed = () => {
       try { return sessionStorage.getItem(sessionKey) === "1"; } catch { return false; }
@@ -271,3 +285,4 @@
 
   init();
 })();
+

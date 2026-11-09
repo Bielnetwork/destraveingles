@@ -59,4 +59,3 @@ describe("Meta Pixel da página de vendas", () => {
     expect(document.getElementById("marketing-consent")).toBeNull();
   });
 });
-

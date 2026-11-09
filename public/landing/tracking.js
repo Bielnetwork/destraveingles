@@ -2,7 +2,6 @@
   "use strict";
 
   const config = window.SALES_PAGE_CONFIG;
-  const pixelConfig = config?.analytics?.metaPixel;
   const debugEvents = window.__META_PIXEL_DEBUG_EVENTS__ = window.__META_PIXEL_DEBUG_EVENTS__ || [];
   const runtime = window.__DESTRAVE_META_PIXEL_RUNTIME__ = window.__DESTRAVE_META_PIXEL_RUNTIME__ || {
     initialized: false,
@@ -10,34 +9,10 @@
     firedEvents: new Set()
   };
 
-  if (!pixelConfig?.enabled || !pixelConfig.id) return;
-
-  const debugMode = Boolean(config.developmentMode && !pixelConfig.enableInDevelopment);
-
-  function installOfficialPixel() {
-    if (window.fbq) return;
-    const fbq = window.fbq = function () {
-      fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments);
-    };
-    if (!window._fbq) window._fbq = fbq;
-    fbq.push = fbq;
-    fbq.loaded = true;
-    fbq.version = "2.0";
-    fbq.queue = [];
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://connect.facebook.net/en_US/fbevents.js";
-    script.dataset.metaPixel = pixelConfig.id;
-    const firstScript = document.getElementsByTagName("script")[0];
-    firstScript.parentNode.insertBefore(script, firstScript);
-  }
-
   function send(method, eventName, parameters) {
     const entry = { method, eventName, parameters: parameters || {} };
-    if (debugMode) {
+    if (typeof window.fbq !== "function") {
       debugEvents.push(entry);
-      console.info(`[Meta Pixel debug] ${JSON.stringify(entry)}`);
       window.dispatchEvent(new CustomEvent("meta-pixel-debug-event", { detail: entry }));
       return;
     }
@@ -52,14 +27,9 @@
     send(method, eventName, parameters);
   }
 
-  function initializePixel() {
+  function initializeTracking() {
     if (runtime.initialized) return;
     runtime.initialized = true;
-    if (!debugMode) {
-      installOfficialPixel();
-      window.fbq("init", pixelConfig.id);
-    }
-    sendOnce("track", "PageView");
     sendOnce("track", "ViewContent", {
       content_name: config.productName,
       content_type: "product",
@@ -104,6 +74,7 @@
     trackCheckoutClick
   });
 
-  initializePixel();
+  initializeTracking();
 })();
+
 

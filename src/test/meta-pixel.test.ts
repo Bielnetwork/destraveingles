@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const trackingSource = readFileSync(resolve(process.cwd(), "public/landing/tracking.js"), "utf8");
+const landingSource = readFileSync(resolve(process.cwd(), "public/landing/index.html"), "utf8");
 const testWindow = window as typeof window & Record<string, any>;
 
 function runTrackingScript() {
@@ -35,8 +36,14 @@ afterEach(() => {
 });
 
 describe("Meta Pixel da página de vendas", () => {
-  it("inicializa automaticamente sem aviso e não duplica eventos nem listeners", () => {
-    const consoleSpy = vi.spyOn(console, "info").mockImplementation(() => undefined);
+  it("mantém o código oficial do Pixel e não duplica eventos auxiliares nem listeners", () => {
+    expect(landingSource).toContain("fbq('init', '1135912255500773');");
+    expect(landingSource).toContain("fbq('track', 'PageView');");
+    expect(landingSource).toContain("https://connect.facebook.net/en_US/fbevents.js");
+    expect(landingSource).toContain("https://www.facebook.com/tr?id=1135912255500773&ev=PageView&noscript=1");
+
+    const fbq = vi.fn();
+    testWindow.fbq = fbq;
 
     runTrackingScript();
     runTrackingScript();
@@ -46,10 +53,10 @@ describe("Meta Pixel da página de vendas", () => {
     document.body.appendChild(checkoutButton);
     checkoutButton.click();
 
-    const messages = consoleSpy.mock.calls.map(([message]) => String(message));
-    expect(messages.filter((message) => message.includes('"eventName":"PageView"'))).toHaveLength(1);
-    expect(messages.filter((message) => message.includes('"eventName":"ViewContent"'))).toHaveLength(1);
-    expect(messages.filter((message) => message.includes('"eventName":"CheckoutClick"'))).toHaveLength(1);
+    expect(fbq.mock.calls.filter(([, eventName]) => eventName === "PageView")).toHaveLength(0);
+    expect(fbq.mock.calls.filter(([, eventName]) => eventName === "ViewContent")).toHaveLength(1);
+    expect(fbq.mock.calls.filter(([, eventName]) => eventName === "CheckoutClick")).toHaveLength(1);
     expect(document.getElementById("marketing-consent")).toBeNull();
   });
 });
+
